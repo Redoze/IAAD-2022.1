@@ -166,7 +166,7 @@ def tab2():
 
             cnx = create_connection()
             cursor = cnx.cursor()
-            query = "DELETE FROM medicos WHERE CodMed=%s OR NomeMed=%s OR NomeMed=%s OR NomeMed=%s OR Email=%s OR CodEspec=%s"
+            query = "DELETE FROM medicos WHERE CodMed=%s OR NomeMed=%s OR Genero=%s OR Telefone=%s OR Email=%s OR CodEspec=%s"
             values = (input_CodMed, input_name, input_genero, input_telefone, input_email, input_CodEspec)
             cursor.execute(query, values)
             cnx.commit()
