@@ -1,18 +1,23 @@
 import streamlit as st;
-import time
 import mysql.connector
 import pandas as pd
 
+st.set_page_config(
+    page_title="Operações CRUD",
+    page_icon="📄",
+    layout="centered",
+)
+
 # Função para criar uma conexão com o banco de dados
-def create_connection():
-    cnx = mysql.connector.connect(user='root',
-                                password='iaadtask',
+def create_connection():                                        #########################################################################
+    cnx = mysql.connector.connect(user='root',                  ########## ADICIONE SEUS DADOS DE CONEXÃO COM O BANCO DE DADOS ##########
+                                password='iaadtask',            #########################################################################
                                 host='localhost',
                                 database='clinicasmedicas')
     return cnx
 
 st.title('Operações CRUD')
-
+st.markdown("---")
 
 def tab1():
     aba, aba2, aba4 = st.tabs(["Clínica", "Médico","Especialidade"]) #aba3, ... "Paciente"
@@ -21,10 +26,10 @@ def tab1():
         st.subheader('Cadastrar clínica')
 
         with st.form(key="include_clínica"):
-            input_CodCli = st.number_input(label="Insira o Código da Clínica", format="%d", step=1)
+            input_CodCli = st.text_input(label="Insira o Código da Clínica")
             input_name = st.text_input(label="Insira o nome da Clínica")
             input_endereco = st.text_input(label="Insira o Endereco da Clínica")
-            input_telefone = st.number_input(label="Insira o Telefone",format="%d", step=1)
+            input_telefone = st.text_input(label="Insira o Telefone")
             input_email = st.text_input(label="Insira o Email")
             input_button_submit = st.form_submit_button('Enviar')
 
@@ -43,9 +48,9 @@ def tab1():
             input_CodMed = st.number_input(label="Insira o Código do Médico", format="%d", step=1)
             input_name = st.text_input(label="Insira o nome do Médico")
             input_genero = st.selectbox(label="Selecione seu Gênero", options=["M", "F"])
-            input_telefone = st.number_input(label="Insira o Telefone",format="%d", step=1)
+            input_telefone = st.text_input(label="Insira o Telefone")
             input_email = st.text_input(label="Insira o Email")
-            input_CodEspec = st.number_input(label="Insira o Código da Especialidade", format="%d", step=1)
+            input_CodEspec = st.text_input(label="Insira o Código da Especialidade")
             input_button_submit = st.form_submit_button('Enviar')
 
         if input_button_submit:
@@ -144,9 +149,9 @@ def tab2():
             input_CodMed = st.number_input(label="Insira o Código do Médico", format="%d", step=1)
             input_name = st.text_input(label="Insira o nome do Médico")
             input_genero = st.selectbox(label="Selecione seu Gênero", options=["M", "F"])
-            input_telefone = st.number_input(label="Insira o Telefone",format="%d", step=1)
+            input_telefone = st.text_input(label="Insira o Telefone")
             input_email = st.text_input(label="Insira o Email")
-            input_CodEspec = st.number_input(label="Insira o Código da Especialidade", format="%d", step=1)
+            input_CodEspec = st.text_input(label="Insira o Código da Especialidade")
             input_button_submit = st.form_submit_button('Enviar')
 
         if input_button_submit:
@@ -216,6 +221,7 @@ def tab2():
             cursor.execute(query, values)
             cnx.commit()
             cursor.close()
+            st.success("Especialidade removida com sucesso!")
         
         st.subheader("Remover Especilidade")
 
@@ -239,12 +245,12 @@ def tab2():
 
 def main():
     cnx=create_connection()    
-    cursor=cnx.cursor
-    
-    tabs = ["Incluir", "Remover", "Atualizar"]
+    cursor=cnx.cursor()
+
+    tabs = ["Cadastrar", "Remover", "Atualizar"]
     selected_tab = st.sidebar.radio("Selecione a Operação", tabs)
 
-    if selected_tab == "Incluir":
+    if selected_tab == "Cadastrar":
         tab1()
     elif selected_tab == "Remover":
         tab2()
