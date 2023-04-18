@@ -5,47 +5,42 @@ import mysql.connector
 import pandas as pd
 
 
-
-
-
 # Função para criar uma conexão com o banco de dados
 def create_connection():
-    cnx = mysql.connector.connect(user='aulas', password='Felipelol22.',
-                                   host='localhost', database='clinicasmedicas')
+    cnx = mysql.connector.connect(user='root',
+                                password='iaadtask',
+                                port = '3306',
+                                host='localhost',
+                                database='clinicasmedicas')
     return cnx
 
-
-
-st.title('Operacoes CRUD')
-
-
+st.title('Operações CRUD')
 
 
 def tab1():
-    aba, aba2, aba3, aba4 = st.tabs(["Clinica", "Medico", "Paciente","Especialidade"])
+    aba, aba2, aba3, aba4 = st.tabs(["Clínica", "Médico", "Paciente","Especialidade"])
     with aba:
      
-        st.title('Adicionar clinica')
+        st.subheader('Cadastrar clínica')
 
-        with st.form(key="include_clinica"):
-            input_CodCli = st.number_input(label="Insira o Código da Clinica", format="%d", step=1)
-            input_name = st.text_input(label="Insira o nome da Clinica")
-            input_endereco = st.text_input(label="Insira o Endereco da Clinica")
+        with st.form(key="include_clínica"):
+            input_CodCli = st.number_input(label="Insira o Código da Clínica", format="%d", step=1)
+            input_name = st.text_input(label="Insira o nome da Clínica")
+            input_endereco = st.text_input(label="Insira o Endereco da Clínica")
             input_telefone = st.number_input(label="Insira o Telefone",format="%d", step=1)
             input_email = st.text_input(label="Insira o Email")
             input_button_submit = st.form_submit_button('Enviar')
 
         if input_button_submit:
-            st.write(f'Código da Clinica: {input_CodCli}')
-            st.write(f'Clinica: {input_name}')
+            st.write(f'Código da Clínica: {input_CodCli}')
+            st.write(f'Clínica: {input_name}')
             st.write(f'Endereco: {input_endereco}')
             st.write(f'Telefone: {input_telefone}')
             st.write(f'Email: {input_email}')
 
-
     with aba2:
 
-        st.title("Incluir Médico")
+        st.subheader("Cadastrar Médico")
 
         with st.form(key="include_medico"):
             input_CodMed = st.number_input(label="Insira o Código do Médico", format="%d", step=1)
@@ -64,11 +59,9 @@ def tab1():
             st.write(f'Email: {input_email}')
             st.write(f'Código da Especialidade: {input_CodEspec}')
 
-
-        
     with aba3:
 
-        st.title("Incluir Paciente")
+        st.subheader("Cadastrar Paciente")
 
         with st.form(key="include_paciente"):
             input_Cpfpac = st.number_input(label="Insira o Cpf do Paciente",min_value=0,max_value=99999999999, format="%d", step=1)
@@ -79,7 +72,6 @@ def tab1():
             input_email = st.text_input(label="Insira o Email")
             input_button_submit = st.form_submit_button(label='Enviar')
 
-
         if input_button_submit:
             st.write(f'Cpf do Paciente : {input_Cpfpac}')
             st.write(f'Paciente: {input_name}')
@@ -88,10 +80,9 @@ def tab1():
             st.write(f'Telefone: {input_telefone}')
             st.write(f'Email: {input_email}')
              
-     
     with aba4:
 
-        st.title("Incluir Especilidade")
+        st.subheader("Cadastrar Especilidade")
 
         with st.form(key="include_especialidade"):
             input_CodEsp = st.number_input(label="Insira o Código da Especialidade", format="%d", step=1)
@@ -105,18 +96,12 @@ def tab1():
             st.write(f'Descricao: {input_descricao}')
                 
 
-
-
-
-
-
-
-
 def tab2():
-    aba, aba2, aba3, aba4 = st.tabs(["Clinica", "Medico", "Paciente","Especialidade"])
+    aba, aba2, aba3, aba4 = st.tabs(["Clínica", "Médico", "Paciente","Especialidade"])
     with aba:
      
-        st.title('Remover clínica')
+        st.subheader('Remover clínica')
+
         with st.form(key="Remover_clinica"):
             input_CodCli = st.number_input(label="Insira o Código da Clínica", format="%d", step=1)
             input_name = st.text_input(label="Insira o nome da Clínica")
@@ -156,6 +141,8 @@ def tab2():
             
     with aba2:
 
+        st.subheader('Remover Médico')
+
         with st.form(key="Remover_medico"):
             input_CodMed = st.number_input(label="Insira o Código do Médico", format="%d", step=1)
             input_name = st.text_input(label="Insira o nome do Médico")
@@ -183,10 +170,10 @@ def tab2():
             st.success("Médico removido com sucesso!")
 
 
-        
     with aba3:
 
-        st.title("Remover Paciente")
+        st.subheader("Remover Paciente")
+
         def remover_paciente(cnx, cpf, nome, nascimento, genero, telefone, email):
             cursor = cnx.cursor()
 
@@ -213,7 +200,6 @@ def tab2():
             input_email = st.text_input(label="Insira o Email")
             input_button_submit = st.form_submit_button(label='Enviar')
 
-
         if input_button_submit:
             st.write(f'Cpf do Paciente : {input_Cpfpac}')
             st.write(f'Paciente: {input_name}')
@@ -233,16 +219,17 @@ def tab2():
             cursor.execute(query, values)
             cnx.commit()
             cursor.close()
-        st.title("Remover Especilidade")
+        
+        st.subheader("Remover Especilidade")
 
         with st.form(key="Remover_especialidade"):
             input_CodEsp = st.number_input(label="Insira o Código da Especialidade", format="%d", step=1)
             input_name = st.text_input(label="Insira o nome da Especialidade")
-            input_descricao = st.text_input(label="Descricao da Especialidade")
+            input_descricao = st.text_input(label="Descrição da Especialidade")
             input_button_submit = st.form_submit_button('Enviar')
 
         if input_button_submit:
-            st.write(f'Codigo Especialidade: {input_CodEsp}')
+            st.write(f'Código Especialidade: {input_CodEsp}')
             st.write(f'Nome: {input_name}')
             st.write(f'Descricao: {input_descricao}')
 
@@ -250,11 +237,7 @@ def tab2():
                 delete_especialidades(cnx, input_CodEsp, input_name, input_descricao)
         
        
-
-
-    
     #NO CASO PRECISA DE MAIS UMA TAB AI NO 'def main()' CRIAR UMA TABELA NOVA 
-
 
 
 def main():
@@ -262,7 +245,7 @@ def main():
     cursor=cnx.cursor
     
     tabs = ["Incluir", "Remover", "Atualizar"]
-    selected_tab = st.sidebar.radio("Selecione a Operacao", tabs)
+    selected_tab = st.sidebar.radio("Selecione a Operação", tabs)
 
     if selected_tab == "Incluir":
         tab1()
