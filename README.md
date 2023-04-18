@@ -1,4 +1,4 @@
-Repositório destinado para a disciplina Introdução ao Armazenamento e Análise de Dados
+Repositório destinado para a disciplina Introdução ao Armazenamento e Análise de Dados - 2022.1
 
 Para executar localmente siga os passos abaixo:
 Instale o python
