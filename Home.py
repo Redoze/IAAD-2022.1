@@ -243,7 +243,7 @@ def tab2():
     with aba4:
         def delete_especialidades(cnx, input_CodEsp, input_name, input_descricao):
             cursor = cnx.cursor()
-            query = "DELETE FROM especialidades WHERE CodEspec = %s OR NomeEspec = %s OR Descricao = %s"
+            query = "DELETE FROM especialidade WHERE CodEspec = %s OR NomeEspec = %s OR Descricao = %s"
             values = (input_CodEsp, input_name, input_descricao)
             cursor.execute(query, values)
             cnx.commit()
