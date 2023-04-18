@@ -11,7 +11,7 @@ st.set_page_config(
 # Função para criar uma conexão com o banco de dados
 def create_connection():                                        #########################################################################
     cnx = mysql.connector.connect(user='root',                  ########## ADICIONE SEUS DADOS DE CONEXÃO COM O BANCO DE DADOS ##########
-                                password='suasenha',            #########################################################################
+                                password='iaadtask',            #########################################################################
                                 host='localhost',
                                 database='clinicasmedicas')
     return cnx
@@ -102,7 +102,7 @@ def tab1():
                 
 
 def tab2():
-    aba, aba2, aba4 = st.tabs(["Clínica", "Médico","Especialidade"])#, aba3 .... , "Paciente"
+    aba, aba2, aba4 = st.tabs(["Clínica", "Médico", "Especialidade"])#aba3, aba5, ....  "Paciente"  "Clínica Médica"
     with aba:
      
         st.subheader('Remover clínica')
@@ -174,6 +174,30 @@ def tab2():
             cnx.close()
             st.success("Médico removido com sucesso!")
 
+    # with aba3:
+
+    #     st.subheader('Remover Clínica Médica')
+
+    #     with st.form(key="Remover_clinica_medico"):
+    #         input_CodCli = st.text_input(label="Insira o Código do Médico")
+    #         input_CodMed = st.text_input(label="Insira o nome do Médico")
+    #         input_DataIngresso = st.date_input(label="Selecione seu Gênero")
+    #         input_CargaHorariaSemanal = st.number_input(label="Insira o Telefone", format="%d", step=1)
+
+    #     if input_button_submit:
+    #         st.write(f'Código da Clínica: {input_CodCli}')
+    #         st.write(f'Código do Médico: {input_CodMed}')
+    #         st.write(f'Data de ingresso: {input_DataIngresso}')
+    #         st.write(f'Carga horária semanal: {input_CargaHorariaSemanal}')
+    #         cnx = create_connection()
+    #         cursor = cnx.cursor()
+    #         query = "DELETE FROM clinicamedico WHERE CodCli=%s OR CodMed=%s OR DataIngresso=%s OR CargaHorariaSemanal=%s"
+    #         values = (input_CodCli, input_CodMed, input_DataIngresso, input_CargaHorariaSemanal)
+    #         cursor.execute(query, values)
+    #         cnx.commit()
+    #         cursor.close()
+    #         cnx.close()
+    #         st.success("Clínica Médica removida com sucesso!")
 
     # with aba3:
 
