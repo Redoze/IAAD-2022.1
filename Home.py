@@ -11,7 +11,7 @@ st.set_page_config(
 # Função para criar uma conexão com o banco de dados
 def create_connection():                                        #########################################################################
     cnx = mysql.connector.connect(user='root',                  ########## ADICIONE SEUS DADOS DE CONEXÃO COM O BANCO DE DADOS ##########
-                                password='iaadtask',            #########################################################################
+                                password='suasenha',            #########################################################################
                                 host='localhost',
                                 database='clinicasmedicas')
     return cnx
@@ -39,6 +39,7 @@ def tab1():
             st.write(f'Endereco: {input_endereco}')
             st.write(f'Telefone: {input_telefone}')
             st.write(f'Email: {input_email}')
+            st.error('Falha na operação')
 
     with aba2:
 
@@ -60,6 +61,7 @@ def tab1():
             st.write(f'Telefone: {input_telefone}')
             st.write(f'Email: {input_email}')
             st.write(f'Código da Especialidade: {input_CodEspec}')
+            st.error('Falha na operação')
 
     # with aba3:
 
@@ -96,6 +98,7 @@ def tab1():
             st.write(f'Codigo Especialidade: {input_CodEsp}')
             st.write(f'Nome: {input_name}')
             st.write(f'Descricao: {input_descricao}')
+            st.error('Falha na operação')
                 
 
 def tab2():
@@ -255,7 +258,7 @@ def main():
     elif selected_tab == "Remover":
         tab2()
     elif selected_tab == "Atualizar":
-        st.write("TAB 3")
+        st.error('Operação Imcompleta')
 
 if __name__ == "__main__":
     main()
