@@ -19,37 +19,9 @@ st.title('Operações CRUD')
 st.markdown("---")
 
 def tab1():
-    aba, aba2, aba3 = st.tabs(["Clínica", "Médico","Especialidade"])
-    with aba:
-     
-        st.subheader('Cadastrar clínica')
-
-        with st.form(key="include_clínica"):
-            input_CodCli = st.text_input(label="Insira o Código da Clínica")
-            input_name = st.text_input(label="Insira o nome da Clínica")
-            input_endereco = st.text_input(label="Insira o Endereco da Clínica")
-            input_telefone = st.text_input(label="Insira o Telefone")
-            input_email = st.text_input(label="Insira o Email")
-            input_button_submit = st.form_submit_button('Cadastrar')
-
-        if input_button_submit:
-            st.write(f'Código da Clínica: {input_CodCli}')
-            st.write(f'Clínica: {input_name}')
-            st.write(f'Endereco: {input_endereco}')
-            st.write(f'Telefone: {input_telefone}')
-            st.write(f'Email: {input_email}')
-
-            cnx = create_connection()
-            cursor = cnx.cursor()
-            query = "INSERT INTO Clinica (CodCli, NomeCli, Endereco, Telefone, Email) VALUES (%s, %s, %s, %s, %s)"
-            values = (input_CodCli, input_name, input_endereco, input_telefone, input_email)
-            cursor.execute(query, values)
-            cnx.commit()
-            cursor.close()
-            cnx.close()
-            st.success("Clinica adicionada com sucesso!")
-
-    with aba2:
+    aba1, aba2 = st.tabs(["Médico","Especialidade"])
+    
+    with aba1:
 
         st.subheader("Cadastrar Médico")
 
@@ -78,7 +50,7 @@ def tab1():
             cnx.close()
             st.success("Médico adicionado com sucesso!")
 
-    with aba3:
+    with aba2:
 
         st.subheader("Cadastrar Especilidade")
 
@@ -102,48 +74,9 @@ def tab1():
             st.success("Especialidade adicionada com sucesso!")
                 
 def tab2():
-    aba, aba2, aba3 = st.tabs(["Clínica", "Médico", "Especialidade"])
-    with aba:
-     
-        st.subheader('Remover clínica')
-
-        with st.form(key="Remover_clinica"):
-            input_CodCli = st.number_input(label="Insira o Código da Clínica", format="%d", step=1)
-            input_name = st.text_input(label="Insira o nome da Clínica")
-            input_endereco = st.text_input(label="Insira o Endereço da Clínica")
-            input_telefone = st.number_input(label="Insira o Telefone",format="%d", step=1)
-            input_email = st.text_input(label="Insira o Email")
-            input_button_submit = st.form_submit_button('Remover')
-
-        if input_button_submit:
-            st.write(f'Código da Clínica: {input_CodCli}')
-            st.write(f'Clínica: {input_name}')
-            st.write(f'Endereço: {input_endereco}')
-            st.write(f'Telefone: {input_telefone}')
-            st.write(f'Email: {input_email}')
-            
-            # Conecta-se ao banco de dados
-            cnx = create_connection()
-            cursor = cnx.cursor()
-            
-            # Busca se há alguma clínica com os valores informados
-            query = "SELECT * FROM clinica WHERE CodCli = %s OR NomeCli = %s OR Endereco = %s OR Telefone = %s OR Email = %s"
-            values = (input_CodCli, input_name, input_endereco, input_telefone, input_email)
-            cursor.execute(query, values)
-            
-            if cursor.rowcount > 0:  # Se houver, remove a clínica
-                query = "DELETE FROM clinica WHERE CodCli = %s"
-                cursor.execute(query, (input_CodCli,))
-                cnx.commit()
-                st.success(f"Clínica removida com sucesso!")
-            else:
-                st.warning("Não foi possível encontrar uma clínica com os valores informados.")
-            
-            # Fecha a conexão com o banco de dados
-            cursor.close()
-            cnx.close()
-            
-    with aba2:
+    aba1, aba2 = st.tabs(["Médico", "Especialidade"])
+                
+    with aba1:
 
         st.subheader('Remover Médico')
 
@@ -174,7 +107,7 @@ def tab2():
             cnx.close()
             st.success("Médico removido com sucesso!")
 
-    with aba3:
+    with aba2:
 
         def delete_especialidades(cnx, input_CodEsp, input_name, input_descricao):
             cursor = cnx.cursor()
@@ -202,34 +135,9 @@ def tab2():
                 delete_especialidades(cnx, input_CodEsp, input_name, input_descricao)
         
 def tab3():
-    aba, aba2, aba3 = st.tabs(["Clinica", "Medico", "Especialidade"])
+    aba1, aba2 = st.tabs(["Medico", "Especialidade"])
 
-    with aba:
-
-        st.title('Alterar Clínica')
-
-        with st.form(key="update_clinica"):
-            input_CodCli = st.number_input(label="Insira o Código da Clínica a ser alterada", format="%d", step=1)
-            input_field = st.selectbox(label="Selecione o campo a ser alterado", options=["CodCli","NomeCli", "Endereco", "Telefone", "Email"])
-            input_value = st.text_input(label="Insira o novo valor")
-            input_button_submit = st.form_submit_button('Alterar')
-
-        if input_button_submit:
-            st.write(f'Código da Clinica: {input_CodCli}')
-            st.write(f'Campo a ser alterado: {input_field}')
-            st.write(f'Novo valor: {input_value}')
-
-            query = f"UPDATE Clinica SET {input_field} = %s WHERE CodCli = %s"
-            values = (input_value, input_CodCli)
-            cnx = create_connection()
-            cursor = cnx.cursor()
-            cursor.execute(query, values)
-            cnx.commit()
-            cursor.close()
-            cnx.close()
-            st.success("Clínica alterada com sucesso!")
-
-    with aba2:
+    with aba1:
             
             st.title('Alterar Médico')
 
@@ -254,7 +162,7 @@ def tab3():
                 cnx.close()
                 st.success("Médico alterado com sucesso!")
 
-    with aba3:
+    with aba2:
             
             st.title('Alterar Especialidade')
 
