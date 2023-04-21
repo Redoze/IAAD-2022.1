@@ -15,32 +15,52 @@ def create_connection():
                                 database='clinicasmedicas')
     return cnx
 
-st.title('Operações CRUD')
-st.markdown("---")
+def tabela_bd (nome_tabela_plural, nome_tabela):
+
+    st.subheader(nome_tabela_plural)
+
+    cnx = create_connection()
+    cursor = cnx.cursor()
+    query = "SELECT * FROM " + nome_tabela
+    cursor.execute(query)
+    resultado = cursor.fetchall()
+    st.dataframe(resultado)
+    cnx.commit()
+    cursor.close()
+    cnx.close()
 
 def tab1():
     aba1, aba2 = st.tabs(["Médico","Especialidade"])
     
     with aba1:
-
+    
         st.subheader("Cadastrar Médico")
 
+        cnx = create_connection()
+        cursor = cnx.cursor()
+        cursor.execute("SELECT CodEspec FROM especialidade")
+        resultado = cursor.fetchall()
+        valores = []
+
+        for i in resultado:
+            valores.append(i[0])
+
         with st.form(key="include_medico"):
-            input_CodMed = st.number_input(label="Insira o Código do Médico", format="%d", step=1)
+            input_CodMed = st.text_input(label="Insira o Código do Médico", help = "insira um valor númerico de 7 digitos", max_chars = 7)
             input_name = st.text_input(label="Insira o nome do Médico")
             input_genero = st.selectbox(label="Selecione seu Gênero", options=["M", "F"])
             input_telefone = st.text_input(label="Insira o Telefone")
             input_email = st.text_input(label="Insira o Email")
-            input_CodEspec = st.text_input(label="Insira o Código da Especialidade")
+            input_CodEspec = st.selectbox(label="Insira o Código da Especialidade", options = valores)
             input_button_submit = st.form_submit_button('Cadastrar')
 
         if input_button_submit:
-            st.write(f'Código do Médico: {input_CodMed}')
-            st.write(f'Médico: {input_name}')
-            st.write(f'Gênero: {input_genero}')
-            st.write(f'Telefone: {input_telefone}')
-            st.write(f'Email: {input_email}')
-            st.write(f'Código da Especialidade: {input_CodEspec}')
+            st.info(f'Código do Médico: {input_CodMed}')
+            st.info(f'Médico: {input_name}')
+            st.info(f'Gênero: {input_genero}')
+            st.info(f'Telefone: {input_telefone}')
+            st.info(f'Email: {input_email}')
+            st.info(f'Código da Especialidade: {input_CodEspec}')
 
             cnx = create_connection()
             cursor = cnx.cursor()
@@ -52,20 +72,22 @@ def tab1():
             cnx.close()
             st.success("Médico adicionado com sucesso!")
 
+        tabela_bd('Médicos', 'medico')
+        
     with aba2:
 
         st.subheader("Cadastrar Especilidade")
 
         with st.form(key="include_especialidade"):
-            input_CodEsp = st.number_input(label="Insira o Código da Especialidade", format="%d", step=1)
+            input_CodEsp = st.text_input(label="Insira o Código da Especialidade", help = "insira um valor númerico de 7 digitos", max_chars = 7)
             input_name = st.text_input(label="Insira o nome da Especialidade")
             input_descricao = st.text_input(label="Descrição da Especialidade")
             input_button_submit = st.form_submit_button('Cadastrar')
 
         if input_button_submit:
-            st.write(f'Código Especialidade: {input_CodEsp}')
-            st.write(f'Nome: {input_name}')
-            st.write(f'Descrição: {input_descricao}')
+            st.info(f'Código Especialidade: {input_CodEsp}')
+            st.info(f'Nome: {input_name}')
+            st.info(f'Descrição: {input_descricao}')
 
             cnx = create_connection()
             cursor = cnx.cursor()
@@ -76,6 +98,9 @@ def tab1():
             cursor.close()
             cnx.close()
             st.success("Especialidade adicionada com sucesso!")
+
+        tabela_bd('Especialidade', 'especialidade')
+
                 
 def tab2():
     aba1, aba2 = st.tabs(["Médico", "Especialidade"])
@@ -84,8 +109,17 @@ def tab2():
 
         st.subheader('Remover Médico')
 
+        cnx = create_connection()
+        cursor = cnx.cursor()
+        cursor.execute("SELECT CodMed FROM medico")
+        resultado = cursor.fetchall()
+        valores = []
+
+        for i in resultado:
+            valores.append(i[0])
+
         with st.form(key="Remover_medico"):
-            input_CodMed = st.number_input(label="Insira o Código do Médico", format="%d", step=1)
+            input_CodMed = st.selectbox(label="Insira o Código do Médico", options = valores)
             input_name = st.text_input(label="Insira o nome do Médico")
             input_genero = st.selectbox(label="Selecione seu Gênero", options=["M", "F"])
             input_telefone = st.text_input(label="Insira o Telefone")
@@ -94,12 +128,12 @@ def tab2():
             input_button_submit = st.form_submit_button('Remover')
 
         if input_button_submit:
-            st.write(f'Código do Médico: {input_CodMed}')
-            st.write(f'Médico: {input_name}')
-            st.write(f'Gênero: {input_genero}')
-            st.write(f'Telefone: {input_telefone}')
-            st.write(f'Email: {input_email}')
-            st.write(f'Código da Especialidade: {input_CodEspec}')
+            st.info(f'Código do Médico: {input_CodMed}')
+            st.info(f'Médico: {input_name}')
+            st.info(f'Gênero: {input_genero}')
+            st.info(f'Telefone: {input_telefone}')
+            st.info(f'Email: {input_email}')
+            st.info(f'Código da Especialidade: {input_CodEspec}')
 
             cnx = create_connection()
             cursor = cnx.cursor()
@@ -111,8 +145,9 @@ def tab2():
             cnx.close()
             st.success("Médico removido com sucesso!")
 
-    with aba2:
+        tabela_bd('Médicos', 'medico')
 
+    with aba2:
         def delete_especialidades(cnx, input_CodEsp, input_name, input_descricao):
             cursor = cnx.cursor()
             query = "DELETE FROM especialidade WHERE CodEspec = %s OR NomeEspec = %s OR Descricao = %s"
@@ -124,72 +159,116 @@ def tab2():
         
         st.subheader("Remover Especilidade")
 
+        cnx = create_connection()
+        cursor = cnx.cursor()
+        cursor.execute("SELECT CodEspec FROM especialidade")
+        resultado = cursor.fetchall()
+        valores = []
+
+        for i in resultado:
+            valores.append(i[0])
+
         with st.form(key="Remover_especialidade"):
-            input_CodEsp = st.number_input(label="Insira o Código da Especialidade", format="%d", step=1)
+            input_CodEsp = st.selectbox(label="Insira o Código da Especialidade", options = valores)
             input_name = st.text_input(label="Insira o nome da Especialidade")
             input_descricao = st.text_input(label="Descrição da Especialidade")
             input_button_submit = st.form_submit_button('Remover')
 
         if input_button_submit:
-            st.write(f'Código Especialidade: {input_CodEsp}')
-            st.write(f'Nome: {input_name}')
-            st.write(f'Descrição: {input_descricao}')
+            st.info(f'Código Especialidade: {input_CodEsp}')
+            st.info(f'Nome: {input_name}')
+            st.info(f'Descrição: {input_descricao}')
             
             with create_connection() as cnx:
                 delete_especialidades(cnx, input_CodEsp, input_name, input_descricao)
-        
+
+        tabela_bd('Especialidade', 'especialidade')
+
+
 def tab3():
     aba1, aba2 = st.tabs(["Medico", "Especialidade"])
 
     with aba1:
-            
-            st.title('Alterar Médico')
 
-            with st.form(key="update_medico"):
-                input_Cod = st.number_input(label="Insira o Código do Médico a ser alterado", format="%d", step=1)
-                input_field = st.selectbox(label="Selecione o campo a ser alterado", options=["CodMed","NomeMed", "Genero", "Telefone", "Email", "CodEspec"])
-                input_value = st.text_input(label="Insira o novo valor")
-                input_button_submit = st.form_submit_button('Alterar')
+        st.subheader('Alterar Médico')
 
-            if input_button_submit:
-                st.write(f'Código da Clinica: {input_Cod}')
-                st.write(f'Campo a ser alterado: {input_field}')
-                st.write(f'Novo valor: {input_value}')
+        cnx = create_connection()
+        cursor = cnx.cursor()
+        cursor.execute("SELECT CodMed FROM medico")
+        resultado = cursor.fetchall()
+        valores = []
 
-                query = f"UPDATE medico SET {input_field} = %s WHERE CodMed = %s"
-                values = (input_value, input_Cod)
-                cnx = create_connection()
-                cursor = cnx.cursor()
-                cursor.execute(query, values)
-                cnx.commit()
-                cursor.close()
-                cnx.close()
-                st.success("Médico alterado com sucesso!")
+        for i in resultado:
+            valores.append(i[0])
+
+        with st.form(key="update_medico"):
+            input_Cod = st.selectbox(label="Insira o Código do Médico a ser alterado", options = valores)
+            input_field = st.selectbox(label="Selecione o campo a ser alterado", options=["Código do Médico","Nome do Médico", "Genero", "Telefone", "Email", "Código da especialidade"])
+            input_value = st.text_input(label="Insira o novo valor")
+            input_button_submit = st.form_submit_button('Alterar')
+
+        if input_button_submit:
+            st.info(f'Código do Médico: {input_Cod}')
+            st.info(f'Campo alterado: {input_field}')
+            st.info(f'Novo valor: {input_value}')
+
+            if input_field == "Código do Médico":
+                input_field = "CodMed"
+            if input_field == "Nome do Médico":
+                input_field = "NomeMed"
+            if input_field == "Código da especialidade":
+                input_field = "CodEspec"
+
+            query = f"UPDATE medico SET {input_field} = %s WHERE CodMed = %s"
+            values = (input_value, input_Cod)
+            cursor.execute(query, values)
+            cnx.commit()
+            cursor.close()
+            cnx.close()
+            st.success("Médico alterado com sucesso!")
+
+        tabela_bd('Médicos', 'medico')
 
     with aba2:
-            
-            st.title('Alterar Especialidade')
 
-            with st.form(key="update_especialidade"):
-                input_Cod = st.number_input(label="Insira o Código da Especialidade a ser alterada", format="%d", step=1)
-                input_field = st.selectbox(label="Selecione o campo a ser alterado", options=["CodEspec","NomeEspec", "Descricao"])
-                input_value = st.text_input(label="Insira o novo valor")
-                input_button_submit = st.form_submit_button('Enviar')
+        st.subheader('Alterar Especialidade')
 
-            if input_button_submit:
-                st.write(f'Código da Clínica: {input_Cod}')
-                st.write(f'Campo a ser alterado: {input_field}')
-                st.write(f'Novo valor: {input_value}')
+        cnx = create_connection()
+        cursor = cnx.cursor()
+        cursor.execute("SELECT CodEspec FROM especialidade")
+        resultado = cursor.fetchall()
+        valores = []
 
-                query = f"UPDATE especialidade SET {input_field} = %s WHERE CodEspec = %s"
-                values = (input_value, input_Cod)
-                cnx = create_connection()
-                cursor = cnx.cursor()
-                cursor.execute(query, values)
-                cnx.commit()
-                cursor.close()
-                cnx.close()
-                st.success("Especialidade alterada com sucesso!")
+        for i in resultado:
+            valores.append(i[0])
+        
+        with st.form(key="update_especialidade"):
+            input_Cod = st.selectbox(label="Insira o Código da Especialidade a ser alterada", options = valores)
+            input_field = st.selectbox(label="Selecione o campo a ser alterado", options=["Código do especialista","Nome da especialidade", "Descrição"])
+            input_value = st.text_input(label="Insira o novo valor")
+            input_button_submit = st.form_submit_button('Alterar')
+
+        if input_button_submit:
+            st.info(f'Código da especialidade: {input_Cod}')
+            st.info(f'Campo alterado: {input_field}')
+            st.info(f'Novo valor: {input_value}')
+
+            if input_field == "Código da especialidade":
+                input_field = "CodEspec"
+            if input_field == "Nome da especialidade":
+                input_field = "NomeEspec"
+            if input_field == "Descrição":
+                input_field = "Descricao"
+
+            query = f"UPDATE especialidade SET {input_field} = %s WHERE CodEspec = %s"
+            values = (input_value, input_Cod)
+            cursor.execute(query, values)
+            cnx.commit()
+            cursor.close()
+            cnx.close()
+            st.success("Especialidade alterada com sucesso!")
+
+        tabela_bd('Especialidade', 'especialidade')
 
 def tab4():
     
@@ -233,7 +312,11 @@ def tab4():
         else:
             st.warning("A tabela já existe no banco de dados.")
 
+
 def main():
+    st.title('Operações CRUD')
+    st.markdown("---")
+
     cnx=create_connection()    
     cursor=cnx.cursor
     
