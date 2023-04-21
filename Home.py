@@ -42,6 +42,8 @@ def tab1():
             st.write(f'Email: {input_email}')
             st.write(f'Código da Especialidade: {input_CodEspec}')
 
+            cnx = create_connection()
+            cursor = cnx.cursor()
             query = "INSERT INTO Medico (CodMed, NomeMed, Genero, Telefone, Email, CodEspec) VALUES (%s, %s, %s, %s, %s, %s)"
             values = (input_CodMed, input_name, input_genero, input_telefone, input_email, input_CodEspec)
             cursor.execute(query, values)
@@ -65,7 +67,9 @@ def tab1():
             st.write(f'Nome: {input_name}')
             st.write(f'Descrição: {input_descricao}')
 
-            query = "INSERT INTO Medico (CodEspec, NomeEspec, Descricao) VALUES (%s, %s, %s)"
+            cnx = create_connection()
+            cursor = cnx.cursor()
+            query = "INSERT INTO especialidade (CodEspec, NomeEspec, Descricao) VALUES (%s, %s, %s)"
             values = (input_CodEsp, input_name, input_descricao)
             cursor.execute(query, values)
             cnx.commit()
@@ -99,7 +103,7 @@ def tab2():
 
             cnx = create_connection()
             cursor = cnx.cursor()
-            query = "DELETE FROM medicos WHERE CodMed=%s OR NomeMed=%s OR Genero=%s OR Telefone=%s OR Email=%s OR CodEspec=%s"
+            query = "DELETE FROM medico WHERE CodMed=%s OR NomeMed=%s OR Genero=%s OR Telefone=%s OR Email=%s OR CodEspec=%s"
             values = (input_CodMed, input_name, input_genero, input_telefone, input_email, input_CodEspec)
             cursor.execute(query, values)
             cnx.commit()
@@ -152,7 +156,7 @@ def tab3():
                 st.write(f'Campo a ser alterado: {input_field}')
                 st.write(f'Novo valor: {input_value}')
 
-                query = f"UPDATE Medico SET {input_field} = %s WHERE CodMed = %s"
+                query = f"UPDATE medico SET {input_field} = %s WHERE CodMed = %s"
                 values = (input_value, input_Cod)
                 cnx = create_connection()
                 cursor = cnx.cursor()
@@ -177,7 +181,7 @@ def tab3():
                 st.write(f'Campo a ser alterado: {input_field}')
                 st.write(f'Novo valor: {input_value}')
 
-                query = f"UPDATE Medico SET {input_field} = %s WHERE CodEspec = %s"
+                query = f"UPDATE especialidade SET {input_field} = %s WHERE CodEspec = %s"
                 values = (input_value, input_Cod)
                 cnx = create_connection()
                 cursor = cnx.cursor()
