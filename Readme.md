@@ -2,7 +2,7 @@
 
 ## Este programa consiste na execução das operações CRUD com o banco de dados MySQL, utilizando a interface _web Streamlit_.
 
-- Para executar localmente siga os passos abaixo:
+Para executar localmente siga os passos abaixo:
 - Instale o _python_
 - Entre no terminal e execute: ``python -m pip install --upgrade pip``
 - Baixe este projeto e descompacte o conteudo em uma pasta. Abra a pasta
