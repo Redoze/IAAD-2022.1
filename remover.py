@@ -23,7 +23,6 @@ def remover():
             valores = [i[0] for i in resultado]
             input_CodMed = st.selectbox(label="Insira o Código do Médico", options = valores)
             input_button_submit = st.form_submit_button('Remover')
-            st.write(input_CodMed)
 
         if input_button_submit:
             st.info(f'Código do Médico: {input_CodMed}')
