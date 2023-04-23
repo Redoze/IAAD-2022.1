@@ -1,7 +1,6 @@
 import streamlit as st
 from app import *
-from conexao import *
-from tabelas import *
+from funcs import *
 
 def atualizar():
 
