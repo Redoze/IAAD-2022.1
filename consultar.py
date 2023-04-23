@@ -1,6 +1,6 @@
 import streamlit as st
 from app import *
-from conexao import *
+from funcs import *
 
 def consultar():
 
@@ -25,6 +25,7 @@ def consultar():
             st.subheader("Tabela Médico")
         elif i == 'especialidade':
             st.subheader("Tabela Especialidade")
+            
         cursor.execute("SELECT * FROM " + conv_string)
         resultado = cursor.fetchall()
         st.dataframe(resultado)
