@@ -31,20 +31,26 @@ def cadastrar():
             input_button_submit = st.form_submit_button('Cadastrar')
 
         if input_button_submit:
-            st.info(f'Código do Médico: {input_CodMed}')
-            st.info(f'Médico: {input_name}')
-            st.info(f'Gênero: {input_genero}')
-            st.info(f'Telefone: {input_telefone}')
-            st.info(f'Email: {input_email}')
-            st.info(f'Código da Especialidade: {input_CodEspec}')
+            if len(input_CodMed) == 7 and len(input_name) != 0:
+                query = "INSERT INTO Medico (CodMed, NomeMed, Genero, Telefone, Email, CodEspec) VALUES (%s, %s, %s, %s, %s, %s)"
+                values = (input_CodMed, input_name, input_genero, input_telefone, input_email, input_CodEspec)
+                cursor.execute(query, values)
+                cnx.commit()
+                cursor.close()
+                cnx.close()
 
-            query = "INSERT INTO Medico (CodMed, NomeMed, Genero, Telefone, Email, CodEspec) VALUES (%s, %s, %s, %s, %s, %s)"
-            values = (input_CodMed, input_name, input_genero, input_telefone, input_email, input_CodEspec)
-            cursor.execute(query, values)
-            cnx.commit()
-            cursor.close()
-            cnx.close()
-            st.success("Médico adicionado com sucesso!")
+                st.success("Médico adicionado com sucesso!")
+                st.info(f'Código do Médico: {input_CodMed}')
+                st.info(f'Médico: {input_name}')
+                st.info(f'Gênero: {input_genero}')
+                st.info(f'Telefone: {input_telefone}')
+                st.info(f'Email: {input_email}')
+                st.info(f'Código da Especialidade: {input_CodEspec}')
+                
+            elif len(input_CodMed) < 7:
+                st.warning('Você deve inserir 7 caracteres para o Código do Médico')
+            elif len(input_name) == 0:
+                st.warning('Você deve inserir o Nome do Médico')
 
         tabela_bd('Médicos', 'medico')
         
@@ -59,16 +65,23 @@ def cadastrar():
             input_button_submit = st.form_submit_button('Cadastrar')
 
         if input_button_submit:
-            st.info(f'Código Especialidade: {input_CodEsp}')
-            st.info(f'Nome: {input_name}')
-            st.info(f'Descrição: {input_descricao}')
+            if len(input_CodEsp) == 7 and len(input_name) and len(input_descricao)!= 0:
+                query = "INSERT INTO especialidade (CodEspec, NomeEspec, Descricao) VALUES (%s, %s, %s)"
+                values = (input_CodEsp, input_name, input_descricao)
+                cursor.execute(query, values)
+                cnx.commit()
+                cursor.close()
+                cnx.close()
 
-            query = "INSERT INTO especialidade (CodEspec, NomeEspec, Descricao) VALUES (%s, %s, %s)"
-            values = (input_CodEsp, input_name, input_descricao)
-            cursor.execute(query, values)
-            cnx.commit()
-            cursor.close()
-            cnx.close()
-            st.success("Especialidade adicionada com sucesso!")
-
+                st.success("Especialidade adicionada com sucesso!")
+                st.info(f'Código Especialidade: {input_CodEsp}')
+                st.info(f'Nome: {input_name}')
+                st.info(f'Descrição: {input_descricao}')
+                
+            elif len(input_CodEsp) < 7:
+                st.warning('Você deve inserir 7 caracteres para o Código da Especialidade')
+            elif len(input_name) == 0:
+                st.warning('Você deve inserir o Nome da Especialidade')
+            elif len(input_descricao) == 0:
+                st.warning('Você deve inserir uma Descrição para a Especialidade')
         tabela_bd('Especialidade', 'especialidade')
