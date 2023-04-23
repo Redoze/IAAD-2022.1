@@ -1,7 +1,6 @@
 import streamlit as st
 from app import *
-from conexao import *
-from tabelas import *
+from funcs import *
 
 def cadastrar():
     st.header("Operação de Cadastro")
@@ -64,8 +63,6 @@ def cadastrar():
             st.info(f'Nome: {input_name}')
             st.info(f'Descrição: {input_descricao}')
 
-            cnx = create_connection()
-            cursor = cnx.cursor()
             query = "INSERT INTO especialidade (CodEspec, NomeEspec, Descricao) VALUES (%s, %s, %s)"
             values = (input_CodEsp, input_name, input_descricao)
             cursor.execute(query, values)
