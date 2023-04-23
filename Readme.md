@@ -8,5 +8,5 @@ Para executar localmente siga os passos abaixo:
 - Baixe este projeto e descompacte o conteudo em uma pasta. Abra a pasta
 - Execute: ``pip install -r requirements.txt --upgrade``
 - Faça a hospedagem local do seu Banco de Dados ou do *Script_ClinicasMedicas.sql*
-- Coloque as credenciais de acesso ao Banco de Dados onde é solicitado no código e salve
+- Coloque as credenciais de acesso ao Banco de Dados nos campos descritos de **funcs.py** e salve
 - Execute: ``streamlit run app.py``
