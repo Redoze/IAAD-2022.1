@@ -44,6 +44,18 @@ values
 select * 
 from medico;
 
+DELIMITER $$
+CREATE TRIGGER verifica_email
+BEFORE INSERT ON Medico
+FOR EACH ROW
+BEGIN
+    IF NEW.Email NOT LIKE '%@%' THEN
+        SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'O email deve conter "@"';
+    END IF;
+END$$
+DELIMITER ;
+
 describe medico;
 
 create table if not exists Especialidade (
@@ -73,4 +85,3 @@ from especialidade;
 describe especialidade;
 
 show databases;
-
