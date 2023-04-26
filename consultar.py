@@ -1,5 +1,4 @@
 import streamlit as st
-from app import *
 from funcs import *
 
 def consultar():
@@ -15,29 +14,29 @@ def consultar():
     valores = []
 
     for i in resultado:
-        valores.append(i[0])
+        letra_i = i[0] 
+        if letra_i == 'especialidade':
+            palavra_tabela = 'Especialidade'
+        elif letra_i == 'medico':
+            palavra_tabela = 'Médico'
+        valores.append(palavra_tabela)
 
     opicoes = st.multiselect("Escolha as tabelas que deseja visualizar", options= valores)
 
     for i in (opicoes):
-        conv_string = str(i)
-        if i == 'medico':
-            st.subheader("Tabela Médico")
-        elif i == 'especialidade':
-            st.subheader("Tabela Especialidade")
-            
-        cursor.execute("SELECT * FROM " + conv_string)
-        resultado = cursor.fetchall()
-        st.dataframe(resultado)
 
-        if conv_string == 'medico':
-            st.caption('Coluna 0 = Código do Médico')
-            st.caption("Coluna 1 = Nome do Médico")
-            st.caption("Coluna 2 = Gênero")
-            st.caption("Coluna 3 = Telefone")
-            st.caption("Colune 4 = Email")
-            st.caption("Coluna 5 = Código de especialidade")
-        if conv_string == 'especialidade':
-            st.caption('Coluna 0 = Código de especialidade')
-            st.caption("Coluna 1 = Nome da especialidade")
-            st.caption("Coluna 2 = Descrição da especialidade")
+        if i == 'Médico':
+            st.subheader("Tabela Médico")
+            i = 'medico'
+        elif i == 'Especialidade':
+            st.subheader("Tabela Especialidade")
+            i = 'especialidade'
+
+        query2 = "SELECT * FROM " + i
+        df = pd.read_sql_query(query2, cnx)
+        if i == 'medico':
+            df.columns = ["Código do Médico", "Nome do Médico", "Gênero", 'Telefone',' Email','Código de especialidade']
+        if i == 'especialidade':
+            df.columns = ["Código de especialidade", "Nome da especialidade", "Descrição da especialidade"]
+
+        st.dataframe(df)
