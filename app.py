@@ -4,6 +4,12 @@ from cadastrar import *
 from atualizar import *
 from remover import *
 
+st.set_page_config(
+    page_title="Operações CRUD",
+    page_icon="📄",
+    layout= 'centered'
+)
+
 def main():
     
         st.sidebar.title('Operações CRUD')
