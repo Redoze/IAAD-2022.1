@@ -1,6 +1,6 @@
 import streamlit as st
-from app import *
 from funcs import *
+import time
 
 def remover():
 
@@ -11,51 +11,68 @@ def remover():
                 
     with aba1:
 
-        st.subheader('Remover Médico')
+        coluna1, coluna2 = st.columns(2)
 
-        cnx = create_connection()
-        cursor = cnx.cursor()
-        cursor.execute("SELECT CodMed FROM medico")
-        resultado = cursor.fetchall()
-        valores = []
-        
-        with st.form(key="Remover_medico"):
-            valores = [i[0] for i in resultado]
-            input_CodMed = st.selectbox(label="Insira o Código do Médico", options = valores)
-            input_button_submit = st.form_submit_button('Remover')
+        with coluna1:
+            st.subheader('Remover Médico')
 
-        if input_button_submit:
-            st.info(f'Código do Médico: {input_CodMed}')
+            cnx = create_connection()
+            cursor = cnx.cursor()
+            cursor.execute("SELECT CodMed FROM medico")
+            resultado = cursor.fetchall()
+            valores = []
+            
+            with st.form(key="Remover_medico"):
+                valores = [i[0] for i in resultado]
+                input_CodMed = st.selectbox(label="Escolha o Código do Médico", options = valores)
+                input_button_submit = st.form_submit_button('Remover')
 
-            cursor.execute("DELETE FROM medico WHERE CodMed =" + input_CodMed)
-            cnx.commit()
-            cursor.close()
-            cnx.close()
-            st.success("Médico removido com sucesso!")
+            if input_button_submit:
 
-        tabela_bd('Médicos', 'medico')
+                cursor.execute("DELETE FROM medico WHERE CodMed =" + input_CodMed)
+                cnx.commit()
+                cursor.close()
+                cnx.close()
+                st.success(f"Médico {input_CodMed} removido com sucesso!")
+
+                st.warning('Atualizando página')
+                with st.spinner('Aguarde a atualização da página para efetuar uma nova operação'):
+                    time.sleep(10)
+                st.experimental_rerun()
+
+        with coluna2:
+            tabela_bd('Médicos', 'medico')
 
     with aba2:
+
+        coluna1, coluna2 = st.columns(2)
     
-        st.subheader("Remover Especilidade")
+        with coluna1:
 
-        cnx = create_connection()
-        cursor = cnx.cursor()
-        cursor.execute("SELECT CodEspec FROM especialidade")
-        resultado = cursor.fetchall()
-        valores = []
+            st.subheader("Remover Especilidade")
 
-        with st.form(key="Remover_especialidade"):
-            valores = [i[0] for i in resultado]
-            input_CodEsp = st.selectbox(label="Insira o Código da Especialidade", options = valores)
-            input_button_submit = st.form_submit_button('Remover')
+            cnx = create_connection()
+            cursor = cnx.cursor()
+            cursor.execute("SELECT CodEspec FROM especialidade")
+            resultado = cursor.fetchall()
+            valores = []
 
-        if input_button_submit:
-            st.info(f'Código Especialidade: {input_CodEsp}')
+            with st.form(key="Remover_especialidade"):
+                valores = [i[0] for i in resultado]
+                input_CodEsp = st.selectbox(label="Escolha o Código da Especialidade", options = valores)
+                input_button_submit = st.form_submit_button('Remover')
 
-            cursor.execute("DELETE FROM especialidade WHERE CodEspec =" + input_CodEsp)
-            cnx.commit()
-            cursor.close()
-            st.success("Especialidade removida com sucesso!")
+            if input_button_submit:
 
-        tabela_bd('Especialidade', 'especialidade')
+                cursor.execute("DELETE FROM especialidade WHERE CodEspec =" + input_CodEsp)
+                cnx.commit()
+                cursor.close()
+                st.success(f"Especialidade {input_CodEsp} removida com sucesso!")
+
+                st.warning('Atualizando página')
+                with st.spinner('Aguarde a atualização da página para efetuar uma nova operação'):
+                    time.sleep(10)
+                st.experimental_rerun()
+
+        with coluna2:
+            tabela_bd('Especialidade', 'especialidade')
